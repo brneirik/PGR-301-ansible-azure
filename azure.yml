@@ -16,7 +16,7 @@
   tasks:
   - name: Hello, world
     shell: echo "Hello, world"
-
+  
   - name: Create a Virtual machine
   azure_rm_virtualmachine:
     resource_group: ansibledemo
