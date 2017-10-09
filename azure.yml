@@ -25,7 +25,7 @@
       managed_disk_type: Standard_LRS
       admin_username: bbenjami
       ssh_public_keys:
-        - path: /home/adminUser/.ssh/authorized_keys
+        - path: /home/bbenjami/.ssh/authorized_keys
           key_data: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDD3vpUb8LQUChWfNtOsO92F+7Y3t8uJiNMZYhDreLZP+1LKNQMgAK0kGQt2laAywVI6i2hAGLYPZ+GhrAWq2FtRneY/WMAdXq3S/dyLWjGaXiihf/N3sumUeM9Q+kLBRY69Q/n0MTkmRhy+nvu8EkQu9diMBF+36lOf0iDUh2ov9EyX1xKbdMaIUnPcxf+5etfCzG7nsXBWWZBtDVZPJSy2KB1lgt8xoZGBoVaba8v+o0e/B98XnDYATd3qbPsdjoSTJuoLSvjG2gbYzU54VwwCo51iXOJUlGayAlD2sYMQRGZ5DubDAZO0jdoVhItga4+Bma+4WZdA4QV/pqjy7J1 brneirik@Bjrns-MB"
       image:
         offer: UbuntuServer
