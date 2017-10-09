@@ -9,14 +9,43 @@
   gather_facts: no
   vars:
     az_resource_group: ansibledemo
-    az_nsg: westerdalsdemo-nsg
-    az_ip: westerdalsdemo-ip
-    az_domain_name: westerdalsdemoftw
-    az_nic: westerdalsdemo-nic
+    az_nsg: westerdalsdemo2000-nsg
+    az_ip: westerdalsdemo2000-ip
+    az_domain_name: westerdalsdemo2000
+    az_nic: westerdalsdemo2000-nic
   tasks:
   - name: Hello, world
     shell: echo "Hello, world"
   
+  - name: Create Network Security Group that allows SSH
+    azure_rm_securitygroup:
+      resource_group: "{{ az_resource_group }}"
+      name: "{{ az_nsg }}"
+      rules:
+        - name: SSH
+          protocol: Tcp
+          destination_port_range: 22
+          access: Allow
+          priority: 1001
+          direction: Inbound
+
+  - name: Create a public ip address
+    azure_rm_publicipaddress:
+      resource_group: "{{ az_resource_group }}"
+      name: "{{ az_ip }}"
+      allocation_method: Static
+      domain_name: "{{ az_domain_name }}"
+
+  - name: Create virtual network inteface card
+    azure_rm_networkinterface:
+      resource_group: "{{ az_resource_group }}"
+      name: "{{ az_nic }}"
+      virtual_network: ansibledemo-vnet
+      subnet: default
+      public_ip_name: "{{ az_ip }}"
+      security_group: "{{ az_nsg }}"
+
+
   - name: Create a Virtual machine
     azure_rm_virtualmachine:
       resource_group: ansibledemo
@@ -24,6 +53,8 @@
       vm_size: Standard_DS1_v2
       managed_disk_type: Standard_LRS
       admin_username: bbenjami
+      network_interfaces: "{{az_nic}}"
+      ssh_password_enabled: false
       ssh_public_keys:
         - path: /home/bbenjami/.ssh/authorized_keys
           key_data: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDD3vpUb8LQUChWfNtOsO92F+7Y3t8uJiNMZYhDreLZP+1LKNQMgAK0kGQt2laAywVI6i2hAGLYPZ+GhrAWq2FtRneY/WMAdXq3S/dyLWjGaXiihf/N3sumUeM9Q+kLBRY69Q/n0MTkmRhy+nvu8EkQu9diMBF+36lOf0iDUh2ov9EyX1xKbdMaIUnPcxf+5etfCzG7nsXBWWZBtDVZPJSy2KB1lgt8xoZGBoVaba8v+o0e/B98XnDYATd3qbPsdjoSTJuoLSvjG2gbYzU54VwwCo51iXOJUlGayAlD2sYMQRGZ5DubDAZO0jdoVhItga4+Bma+4WZdA4QV/pqjy7J1 brneirik@Bjrns-MB"
