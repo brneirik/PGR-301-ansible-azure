@@ -1,14 +1,12 @@
 #!groovy
-@Library('fagdagjenkins-shared') _
-
 pipeline {
 	agent any
 
 	stages{
 
-		stage('ansible')  {	
+		stage('Run ansible playbook')  {	
 			steps{
-		   		sh('ansible-playbook azure.yml') 
+				sh 'ansible-playbook azure.yml'
 			}
 		}
 				
